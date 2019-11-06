@@ -15,7 +15,7 @@ and may still in the future for my own enrichment. Some of those areas include:
 
 ## Running Docker Compose
 Simply navigate to the main folder of foodclub and run the following command:
- > docker-compose -f foodclub.yml up
+ - docker-compose -f foodclub.yml up
 
 
 ## Seeding the database:
@@ -26,7 +26,7 @@ Please keep track of the following IDs to make building the queries more simple:
  - Order ID
 
 ## Add a restaurant:
-    POST to http://localhost:3000/restaurants
+    POST: http://localhost:3000/restaurants
     BODY: {
             "name": "pizza penne",
             "phone": "cucumber",
@@ -37,7 +37,7 @@ Please keep track of the following IDs to make building the queries more simple:
     This _id will be referred to as restaurant_id going forward
 
 ## Add hours to a restaurant
-    POST to http://localhost:4000/hours/{restaurant_id}
+    POST: http://localhost:4000/hours/{restaurant_id}
     BODY: {
             "sunday_open": "09:00",
             "sunday_close": "23:30",
@@ -57,7 +57,7 @@ Please keep track of the following IDs to make building the queries more simple:
         }
 
 ## Add a menu to a restaurant
-    POST to http://localhost:5000/menus/{restaurant_id}
+    POST: http://localhost:5000/menus/{restaurant_id}
     BODY: {
             "menu_items": [{
                     "category": "pizza",
@@ -102,7 +102,7 @@ Please keep track of the following IDs to make building the queries more simple:
         }
 
 ## Add a customer
-    POST to http://localhost:7000
+    POST: http://localhost:7000
     BODY: {
             "first": "Spencer",
             "last": "Jones",
@@ -118,7 +118,7 @@ Please keep track of the following IDs to make building the queries more simple:
 
 
 ## To place an order for a restaurant
-    POST to http://localhost:8080/orders/{restaurant_id}/customer/{customer_id}
+    POST: http://localhost:8080/orders/{restaurant_id}/customer/{customer_id}
     BODY: {
             "order_items": [
                 {
@@ -138,6 +138,6 @@ At this time, I was unable to add the NodeJS instances to the docker-compose. I 
 it to run via nodemon, and the examples on the web were too involved for now.  The simplest
 way to run them, is to go into each folder: "customers", "hours", "menus", "orders", "restaurants",
 run:
- > npm i
- > npm run dev
+ - npm i
+ - npm run dev
 
