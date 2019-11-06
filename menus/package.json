@@ -1,0 +1,33 @@
+{
+  "name": "menus",
+  "version": "1.0.0",
+  "description": "Manage menus for individual restaurants",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon -w ./ server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shmuel613/foodclub.git"
+  },
+  "keywords": [
+    "food",
+    "club",
+    "menus"
+  ],
+  "author": "Jason Yonk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shmuel613/foodclub/issues"
+  },
+  "homepage": "https://github.com/shmuel613/foodclub#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.8"
+  }
+}

@@ -1,0 +1,66 @@
+version: '3.7'
+services:
+  db-customers:
+    image: 'mongo'
+    container_name: 'db-customers'
+    environment:
+      - MONGO_INITDB_DATABASE=data
+      - MONGO_INITDB_ROOT_USERNAME=customers
+      - MONGO_INITDB_ROOT_PASSWORD=cust0m3rs
+    volumes:
+      - ./customers/init-mongo.js:/docker-entrypoint-initdb/init-mongo.js:ro
+      - ./mongo-volume:/customers/data/db
+    ports:
+      - 7500-27019
+      
+  db-hours:
+    image: 'mongo'
+    container_name: 'db-hours'
+    environment:
+      - MONGO_INITDB_DATABASE=data
+      - MONGO_INITDB_ROOT_USERNAME=hours
+      - MONGO_INITDB_ROOT_PASSWORD=h0urs
+    volumes:
+      - ./hours/init-mongo.js:/docker-entrypoint-initdb/init-mongo.js:ro
+      - ./mongo-volume:/hours/data/db
+    ports:
+      - 4500-27019
+
+  db-menus:
+    image: 'mongo'
+    container_name: 'db-menus'
+    environment:
+      - MONGO_INITDB_DATABASE=data
+      - MONGO_INITDB_ROOT_USERNAME=menus
+      - MONGO_INITDB_ROOT_PASSWORD=m3nus
+    volumes:
+      - ./menus/init-mongo.js:/docker-entrypoint-initdb/init-mongo.js:ro
+      - ./mongo-volume:/menus/data/db
+    ports:
+      - 5500-27019
+
+  db-orders:
+    image: 'mongo'
+    container_name: 'db-orders'
+    environment:
+      - MONGO_INITDB_DATABASE=data
+      - MONGO_INITDB_ROOT_USERNAME=orders
+      - MONGO_INITDB_ROOT_PASSWORD=0rd3rs
+    volumes:
+      - ./orders/init-mongo.js:/docker-entrypoint-initdb/init-mongo.js:ro
+      - ./mongo-volume:/orders/data/db
+    ports:
+      - 5500-27019
+
+  db-restaurants:
+    image: 'mongo'
+    container_name: 'db-restaurants'
+    environment:
+      - MONGO_INITDB_DATABASE=data
+      - MONGO_INITDB_ROOT_USERNAME=restaurants
+      - MONGO_INITDB_ROOT_PASSWORD=r3st4ur4nts
+    volumes:
+      - ./restaurants/init-mongo.js:/docker-entrypoint-initdb/init-mongo.js:ro
+      - ./mongo-volume:/restaurants/data/db
+    ports:
+      - 5500-27019
