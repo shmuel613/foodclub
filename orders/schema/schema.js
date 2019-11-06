@@ -1,19 +1,19 @@
+const mongoose = require('mongoose');
+
 //  {
 //     "order_items": [
 //     {
-//         "menu_item_id": {menu_item_id},
+//         "menu_item_id": {menu_item_id},    
 //         "quantity": 2,
 //         "notes": "Extra cheese please"
 //     },
 //     {
-//         "menu_item_id": {menu_item_id},
+//         "menu_item_id": {menu_item_id},    
 //         "quantity": 1
 //     }
 // ],
 //     "notes": "Please deliver with utensils",
 // };
-
-const mongoose = require('mongoose');
 
 let order_items = new mongoose.Schema({
     menu_item_id: {

@@ -63,6 +63,6 @@ let menus = new mongoose.Schema({
     notes: {type: String}
 });
 
-let Customers = mongoose.model('Customers', customers);
+let Menus = mongoose.model('Menus', menus);
 
-module.exports = Customers;
+module.exports = Menus;
