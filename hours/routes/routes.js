@@ -4,24 +4,6 @@ const mongoose = require('mongoose');
 const Hours = require('../schema/schema');
 const Utilities = require('../../utilities/utilities');
 
-// let x = {
-//     "sunday_open": "09:00",
-//     "sunday_close": "23:30",
-//     "monday_open": "09:00",
-//     "monday_close": "23:30",
-//     "tuesday_open": "09:00",
-//     "tuesday_close": "23:30",
-//     "wednesday_open": "09:00",
-//     "wednesday_close": "23:30",
-//     "thursday_open": "09:00",
-//     "thursday_close": "23:30",
-//     "friday_open": "09:00",
-//     "friday_close": "23:30",
-//     "saturday_open": "09:00",
-//     "saturday_close": "23:30",
-//     "notes": "Closed on holidays"
-// };
-
 /**** DELETE THE DELIVERY HOURS OF A SPECIFIC RESTAURANT ****/
 router.delete('/hours/:id', (req, res) => {
     Hours.deleteOne({

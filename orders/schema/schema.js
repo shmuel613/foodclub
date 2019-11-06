@@ -12,8 +12,8 @@ const mongoose = require('mongoose');
 //         "quantity": 1
 //     }
 // ],
-//     "notes": "Please deliver with utensils",
-// };
+//     "notes": "Please deliver with utensils"
+// }
 
 let order_items = new mongoose.Schema({
     menu_item_id: {
