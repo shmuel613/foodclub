@@ -10,9 +10,27 @@ services:
     volumes:
       - ./restaurants/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongo-volume:/restaurants/data/db
+    networks:
+      - foodNet
     ports:
       - 3500:27017
-      
+
+  app-restautants:
+    image: node:alpine
+    volumes:
+      - ./restaurants/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - db-restaurants
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+    command: npm run dev
+    networks:
+      - foodNet
+
   db-hours:
     image: 'mongo'
     container_name: 'db-hours'
@@ -25,6 +43,20 @@ services:
       - ./mongo-volume:/hours/data/db
     ports:
       - 4500:27017
+
+  app-hours:
+    image: node:alpine
+    volumes:
+      - ./hours/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - db-hours
+    environment:
+      NODE_ENV: development
+    ports:
+      - 4000:4000
+    command: npm run dev
 
   db-menus:
     image: 'mongo'
@@ -39,6 +71,20 @@ services:
     ports:
       - 5500:27017
 
+  app-menus:
+    image: node:alpine
+    volumes:
+      - ./menus/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - db-menus
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5000:5000
+    command: npm run dev
+
   db-orders:
     image: 'mongo'
     container_name: 'db-orders'
@@ -52,6 +98,20 @@ services:
     ports:
       - 6500:27017
 
+  app-orders:
+    image: node:alpine
+    volumes:
+      - ./orders/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - db-orders
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8080:8080
+    command: npm run dev
+
   db-customers:
     image: 'mongo'
     container_name: 'db-customers'
@@ -64,3 +124,21 @@ services:
       - ./mongo-volume:/customers/data/db
     ports:
       - 7500:27017
+
+  app-customers:
+    image: node:alpine
+    volumes:
+      - ./customers/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - db-customers
+    environment:
+      NODE_ENV: development
+    ports:
+      - 7000:7000
+    command: npm run dev
+
+networks:
+  foodNet:
+    external: true

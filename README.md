@@ -4,8 +4,6 @@ Establish a new competition to the Cibus and 10Bis duopoly
 # NOTES
 While designing this, there were many areas I would have liked to improve upon, 
 and may still in the future for my own enrichment. Some of those areas include:
- - Using the powers of docker-compose to contain all services except the NodeJS
-   Orders service so that they are inaccessible from the outside.
  - Individual reviews of different restaurants and menu items, as opposed to just
    offering a rating
  - many improvements could be added to the API to accomodate more scenarios, such
@@ -15,6 +13,7 @@ and may still in the future for my own enrichment. Some of those areas include:
 
 ## Running Docker Compose
 Simply navigate to the main folder of foodclub and run the following command:
+ - docker network create foodNet
  - docker-compose -f foodclub.yml up
 
 
@@ -133,11 +132,3 @@ Please keep track of the following IDs to make building the queries more simple:
             ],
             "notes": "Please deliver with utensils",
         }
-## Bringing up the Node instances.
-At this time, I was unable to add the NodeJS instances to the docker-compose. I wanted 
-it to run via nodemon, and the examples on the web were too involved for now.  The simplest
-way to run them, is to go into each folder: "customers", "hours", "menus", "orders", "restaurants",
-run:
- - npm i
- - npm run dev
-

@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 }));
 app.use(routes);
 
-const mPath = 'mongodb://0.0.0.0:6500/data';
+const mPath = 'mongodb://db-orders:27017/data';
 const mOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
