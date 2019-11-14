@@ -5,51 +5,62 @@ const Customers = require('../schema/schema');
 const Utilities = require('../../utilities/utilities');
 
 /**** DELETE A CUSTOMER ****/
-router.delete('/cusomters/:id', (req, res) => {
-    Customers.deleteOne({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    }, (err, data) => {
-        if (!Utilities.handleErrorResponse(res, err)) {
-            res.json({
-                count: data.deletedCount
-            });
-        }
-    });
+router.delete('/cusomters/:id', async (req, res) => {
+    try {
+        const data = await Customers.deleteOne({
+            _id: mongoose.Types.ObjectId(req.params.id)
+        });
+        res.json({
+            count: data.deletedCount
+        });
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 /**** CREATE A CUSTOMER ****/
-router.post('/customers', (req, res) => {
-    Customers.create(req.body, (err, data) => {
-        if (!Utilities.handleErrorResponse(res, err)) {
-            res.json(data);
-        }
-    });
+router.post('/customers', async (req, res) => {
+    try {
+        const data = await Customers.create(req.body);
+        res.json(data);
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 /**** UPDATE A CUSTOMER ****/
-router.put('/customers/:id', (req, res) => {
-    Customers.updateOne({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    }, req.body, (err, data) => {
-        if (!Utilities.handleErrorResponse(res, err)) {
-            res.json({
-                count: data.nModified
-            });
-        }
-    });
+router.put('/customers/:id', async (req, res) => {
+    try {
+        const data = await Customers.updateOne({
+            _id: mongoose.Types.ObjectId(req.params.id)
+        });
+        res.json({
+            count: data.nModified
+        });
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 /**** GET THE DELIVERY CUSTOMERS OF A SPECIFIC RESTAURANT ****/
 router.get('/customers/:id', async (req, res) => {
-    const result = await Customers.findOne({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    });
-    res.json(result);
+    try {
+        const result = await Customers.findOne({
+            _id: mongoose.Types.ObjectId(req.params.id)
+        });
+        res.json(result);
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 router.get('/customers', async (req, res) => {
-    const result = await Customers.find({});
-    res.json(result);
+    try {
+        const result = await Customers.find({});
+        res.json(result);
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 router.use('/', (req, res) => {

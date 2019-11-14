@@ -43,6 +43,8 @@ services:
       - ./mongo-volume:/hours/data/db
     ports:
       - 4500:27017
+    networks:
+      - foodNet
 
   app-hours:
     image: node:alpine
@@ -57,6 +59,8 @@ services:
     ports:
       - 4000:4000
     command: npm run dev
+    networks:
+      - foodNet
 
   db-menus:
     image: 'mongo'
@@ -70,6 +74,8 @@ services:
       - ./mongo-volume:/menus/data/db
     ports:
       - 5500:27017
+    networks:
+      - foodNet
 
   app-menus:
     image: node:alpine
@@ -84,6 +90,8 @@ services:
     ports:
       - 5000:5000
     command: npm run dev
+    networks:
+      - foodNet
 
   db-orders:
     image: 'mongo'
@@ -97,6 +105,8 @@ services:
       - ./mongo-volume:/orders/data/db
     ports:
       - 6500:27017
+    networks:
+      - foodNet
 
   app-orders:
     image: node:alpine
@@ -111,6 +121,8 @@ services:
     ports:
       - 8080:8080
     command: npm run dev
+    networks:
+      - foodNet
 
   db-customers:
     image: 'mongo'
@@ -124,6 +136,8 @@ services:
       - ./mongo-volume:/customers/data/db
     ports:
       - 7500:27017
+    networks:
+      - foodNet
 
   app-customers:
     image: node:alpine
@@ -138,6 +152,8 @@ services:
     ports:
       - 7000:7000
     command: npm run dev
+    networks:
+      - foodNet
 
 networks:
   foodNet:

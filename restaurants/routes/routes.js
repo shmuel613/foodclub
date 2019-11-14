@@ -29,90 +29,100 @@ function checkRequiredFields(req, res) {
 }
 
 /**** DELETE A SPECIFIC RESTAURANT ****/
-router.delete('/restaurants/:id', (req, res) => {
-    // TODO: convert to use Promise.all for removing restaurant data in other services
-    //first delete specific restaurant data from all other services
-    fetch(`http://0.0.0.0:4000/hours/${req.params.id}`, { // hours service
-        method: 'DELETE',
-        body: {}
-    }).then(response => {
-        // TODO: handle errors from delete requests
-        if (response.status === 200) {
-            fetch(`http://0.0.0.0:5000/menus/${req.params.id}`, { // hours service
+router.delete('/restaurants/:id', async (req, res) => {
+    try {
+        //first delete specific restaurant data from all other services
+        const services = ['hours', 'menus', 'orders'];
+        const responses = await Promise.all(services.map(service => {
+            return fetch(`http://app-${service}:${Utilities.servicePorts[service]}/${service}/${req.params.id}`, {
                 method: 'DELETE',
                 body: {}
-            }).then(response => {
-                if (response.status === 200) {
-                    Restaurant.deleteOne({
-                        _id: req.params.id
-                    }, (err, data) => {
-                        if (!Utilities.handleErrorResponse(res, err)) {
-                            res.json({
-                                count: data.deletedCount
-                            });
-                        }
-                    });
-                }
             });
-        }
-    });
+        }));
+        const response200 = responses.reduce((acc, response) => {
+            if (response.status !== 200) {
+                acc = false;
+            }
+            return acc;
+        }, true);
 
+        //if all references deleted, delete restaurant
+        const data = await Restaurant.deleteOne({
+            _id: req.params.id
+        });
+        res.json({
+            count: data.deletedCount
+        });
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 /**** CREATE A SPECIFIC RESTAURANT ****/
-router.post('/restaurants', (req, res) => {
+router.post('/restaurants', async (req, res) => {
     if (checkRequiredFields(req, res)) {
-        Restaurant.create(req.body, (err, data) => {
-            if (!Utilities.handleErrorResponse(res, err)) {
-                res.json(data);
-            }
-        });
+        try {
+            const data = await Restaurant.create(req.body);
+            res.json(data);
+        } catch (err) {
+            Utilities.handleErrorResponse(res, err);
+        }
     }
 });
 
 /**** UPDATE A SPECIFIC RESTAURANT ****/
-router.put('/restaurants/:id', (req, res) => {
+router.put('/restaurants/:id', async (req, res) => {
     if (checkRequiredFields(req, res)) {
-        Restaurant.updateOne({
-            _id: mongoose.Types.ObjectId(req.params.id)
-        }, req.body, (err, data) => {
-            if (!Utilities.handleErrorResponse(res, err)) {
-                res.json({
-                    count: data.nModified
-                });
-            }
-        });
+        try {
+            const data = await Restaurant.updateOne({
+                _id: mongoose.Types.ObjectId(req.params.id)
+            }, req.body);
+            res.json({
+                count: data.nModified
+            });
+        } catch (err) {
+            Utilities.handleErrorResponse(res, err);
+        }
     }
 });
 
 /**** ADD A NEW RATING TO A RESTAURANT ****/
-router.put('/restaurants/:id/rating', (req, res) => {
-    Restaurant.update({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    }, {
-        $push: {
-            "rating": req.body.rating
-        }
-    }, (err, data) => {
-        if (!Utilities.handleErrorResponse(res, err)) {
-            res.json({
-                count: data.nModified
-            });
-        }
-    });
+router.put('/restaurants/:id/rating', async (req, res) => {
+    try {
+        const data = await Restaurant.update({
+            _id: mongoose.Types.ObjectId(req.params.id)
+        }, {
+            $push: {
+                "rating": req.body.rating
+            }
+        });
+        res.json({
+            count: data.nModified
+        });
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 /**** GET A SPECIFIC RESTAURANT ****/
 router.get('/restaurants/:id', async (req, res) => {
-    const result = await Restaurant.findOne({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    });
-    res.json(result);
+    try {
+        const result = await Restaurant.findOne({
+            _id: mongoose.Types.ObjectId(req.params.id)
+        });
+        res.json(result);
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 router.get('/restaurants', async (req, res) => {
-    const result = await Restaurant.find({});
-    res.json(result);
+    try {
+        const result = await Restaurant.find({});
+        res.json(result);
+    } catch (err) {
+        Utilities.handleErrorResponse(res, err);
+    }
 });
 
 router.use('/', (req, res) => {
