@@ -1,23 +1,23 @@
 import React from "react";
-import logo from "./logo.svg";
+// import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
+import Main from "./components/Main";
 import Status from "./components/Status";
-import Restaurants from "./components/Restaurants";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheckCircle,
-  faTimesCircle
+  faTimesCircle,
+  faUtensils,
+  faClock
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCheckCircle, faTimesCircle);
+library.add(faCheckCircle, faTimesCircle, faUtensils, faClock);
 
 function App() {
   return (
     <div className="App">
       <Status></Status>
-      <br/>
-      <strong>Restaurants:</strong><br/>
-      <Restaurants></Restaurants>
+      <Main></Main>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Constants from "../Constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 async function fetchServiceData(service) {
   try {
@@ -25,11 +27,16 @@ function formatRestuarants(restaurants) {
     const today = Constants.days[new Date().getDay()];
     return restaurants.map((restaurant, i) => {
       return (
-        <li key={i}>
-          <strong>{restaurant.name}</strong>
-          <br />
-          hours today: {restaurant.hours[today + "_open"]} -{" "}
-          {restaurant.hours[today + "_close"]}
+        <li className="mt-15" key={i}>
+          <FontAwesomeIcon icon="utensils" /> <strong>{restaurant.name}</strong>
+          <div className="pl-20 pt-5">
+            <FontAwesomeIcon icon="clock" /> hours today:{" "}
+            {restaurant.hours[today + "_open"]} -{" "}
+            {restaurant.hours[today + "_close"]}
+          </div>
+          <div className="pl-20 pt-5">
+            <Link to={`/menu/${restaurant._id}`}>menu</Link>
+          </div>
         </li>
       );
     });
@@ -39,7 +46,7 @@ function formatRestuarants(restaurants) {
 
 function Restaurants(service) {
   const [restaurants, setRestaurants] = useState();
-  const [hours, setHours] = useState();
+  const [hours] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -57,7 +64,8 @@ function Restaurants(service) {
   }, [hours]);
 
   return (
-    <div className="restaurant">
+    <div className="restaurant status-box mt-15">
+      <div className="bold">Restaurants:</div>
       <ul>{restaurants}</ul>
     </div>
   );

@@ -25,6 +25,27 @@ router.get("/api/status/:service", async (req, res) => {
   }
 });
 
+router.get("/api/:service/:id", async (req, res) => {
+  const service = req.params.service;
+  const id = req.params.id;
+  if (Utilities.servicePorts.hasOwnProperty(service)) {
+    try {
+      const result = await fetch(
+        `http://app-${service}:${Utilities.servicePorts[service]}/${service}/${id}`
+      );
+      const resultJSON = await result.json();
+      res.json(resultJSON);
+    } catch (err) {
+      res.status(500);
+      res.json(err);
+    }
+  } else {
+    res.json({
+      status: `${service} service not found`
+    });
+  }
+});
+
 router.get("/api/:service", async (req, res) => {
   const service = req.params.service;
   if (Utilities.servicePorts.hasOwnProperty(service)) {
