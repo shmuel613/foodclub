@@ -15,7 +15,7 @@ services:
     ports:
       - 3500:27017
 
-  app-restautants:
+  app-restaurants:
     image: node:alpine
     volumes:
       - ./restaurants/:/app
@@ -152,6 +152,26 @@ services:
     ports:
       - 7000:7000
     command: npm run dev
+    networks:
+      - foodNet
+
+  app-web:
+    image: node
+    volumes:
+      - ./web/:/app
+      - ./utilities/:/utilities
+    working_dir: /app
+    depends_on:
+      - app-restaurants
+      - app-hours
+      - app-menus
+      - app-orders
+      - app-customers
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8081:8081
+    command: npm start
     networks:
       - foodNet
 

@@ -1,0 +1,26 @@
+.bold {
+  font-weight: bold;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+.status-box {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+}
+.status-box ul {
+  padding-left: 10px;
+  margin-bottom: 0;
+}
+.status-box li {
+  list-style: none;
+}
+
+.restaurant ul {
+  margin-top: 5px;
+}

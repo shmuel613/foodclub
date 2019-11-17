@@ -118,7 +118,7 @@ router.get('/menus', async (req, res) => {
 });
 
 router.use('/', (req, res) => {
-    res.send("Menus are up and running");
+    res.json({"status": "Menus are up and running"});
 });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // {
 //     "sunday_open": "09:00",
@@ -19,53 +19,54 @@ const mongoose = require('mongoose');
 // }
 
 let hours = new mongoose.Schema({
-    sunday_open: {
-        type: String
-    },
-    sunday_close: {
-        type: String
-    },
-    monday_open: {
-        type: String
-    },
-    monday_close: {
-        type: String
-    },
-    tuesday_open: {
-        type: String
-    },
-    tuesday_close: {
-        type: String
-    },
-    wednesday_open: {
-        type: String
-    },
-    wednesday_close: {
-        type: String
-    },
-    thursday_open: {
-        type: String
-    },
-    thursday_close: {
-        type: String
-    },
-    friday_open: {
-        type: String
-    },
-    friday_close: {
-        type: String
-    },
-    saturday_open: {
-        type: String
-    },
-    saturday_close: {
-        type: String
-    },
-    notes: {
-        type: String
-    }
+  restaurant_id: { type: mongoose.Schema.Types.ObjectId },
+  sunday_open: {
+    type: String
+  },
+  sunday_close: {
+    type: String
+  },
+  monday_open: {
+    type: String
+  },
+  monday_close: {
+    type: String
+  },
+  tuesday_open: {
+    type: String
+  },
+  tuesday_close: {
+    type: String
+  },
+  wednesday_open: {
+    type: String
+  },
+  wednesday_close: {
+    type: String
+  },
+  thursday_open: {
+    type: String
+  },
+  thursday_close: {
+    type: String
+  },
+  friday_open: {
+    type: String
+  },
+  friday_close: {
+    type: String
+  },
+  saturday_open: {
+    type: String
+  },
+  saturday_close: {
+    type: String
+  },
+  notes: {
+    type: String
+  }
 });
 
-let Hours = mongoose.model('Hours', hours);
+let Hours = mongoose.model("Hours", hours);
 
 module.exports = Hours;

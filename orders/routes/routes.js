@@ -136,7 +136,7 @@ router.get('/orders', async (req, res) => {
 });
 
 router.use('/', (req, res) => {
-    res.send("Orders are up and running");
+    res.json({"status": "Orders are up and running"});
 });
 
 module.exports = router;
