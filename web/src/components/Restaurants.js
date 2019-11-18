@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import Constants from "../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+function duckstepError(which) {
+  return which.length && which[0].status && which[0].status === "Error";
+}
+
 async function fetchServiceData(service) {
   try {
     const data = await fetch("/api/" + service);
@@ -14,12 +18,19 @@ async function fetchServiceData(service) {
 }
 
 function matchRestaurantAndHours(restaurants, hours) {
-  return restaurants.map(restaurant => {
-    restaurant.hours = hours.find(hour => {
-      return hour.restaurant_id === restaurant._id;
+  if (!duckstepError(restaurants)) {
+    return restaurants.map(restaurant => {
+      if (!duckstepError(hours)) {
+        restaurant.hours = hours.find(hour => {
+          return hour.restaurant_id === restaurant._id;
+        });
+      } else {
+        restaurant.hours = {};
+      }
+      return restaurant;
     });
-    return restaurant;
-  });
+  }
+  return [];
 }
 
 function formatRestuarants(restaurants) {
@@ -30,9 +41,8 @@ function formatRestuarants(restaurants) {
         <li className="mt-15" key={i}>
           <FontAwesomeIcon icon="utensils" /> <strong>{restaurant.name}</strong>
           <div className="pl-20 pt-5">
-            <FontAwesomeIcon icon="clock" /> hours today:{" "}
-            {restaurant.hours[today + "_open"]} -{" "}
-            {restaurant.hours[today + "_close"]}
+            <FontAwesomeIcon icon="clock" /> hours today:
+            {restaurant.hours[today + "_open"]} - {restaurant.hours[today + "_close"]}
           </div>
           <div className="pl-20 pt-5">
             <Link to={`/menu/${restaurant._id}`}>menu</Link>
@@ -57,7 +67,9 @@ function Restaurants(service) {
           formatRestuarants(matchRestaurantAndHours(restaurants, hours))
         );
       } catch (err) {
-        setRestaurants({ service: "Error", status: JSON.stringify(err) });
+        setRestaurants(
+          JSON.stringify({ service: "Error", status: JSON.stringify(err) })
+        );
       }
     }
     fetchData();
