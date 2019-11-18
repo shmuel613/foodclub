@@ -10,13 +10,16 @@ function sortPrices(a, b) {
 }
 
 function formatPrices(prices) {
-  return prices.sort(sortPrices).map((price, i) => {
-    return (
-      <span className="pr-10" key={i}>
-        {price.size} - <strong>{price.price}</strong>
-      </span>
-    );
-  });
+  if (prices && prices.length) {
+    return prices.sort(sortPrices).map((price, i) => {
+      return (
+        <span className="pr-10" key={i}>
+          {price.size} - <strong>{price.price}</strong>
+        </span>
+      );
+    });
+  }
+  return "";
 }
 
 function formatItem(items) {
@@ -36,38 +39,54 @@ function formatItem(items) {
 }
 
 function formatMenu(menu) {
-  const menuClone = menu.menu_items.reduce((acc, item) => {
-    if (!acc.hasOwnProperty(item.category)) {
-      acc[item.category] = [item];
-    } else {
-      const itemArr = acc[item.category].slice(0);
-      itemArr.push(item);
-      acc[item.category].push(itemArr.sort(sortItems));
-    }
+  if (menu && menu.menu_items && menu.menu_items.length) {
+    const menuClone = menu.menu_items.reduce((acc, item) => {
+      if (!acc.hasOwnProperty(item.category)) {
+        acc[item.category] = [item];
+      } else {
+        const itemArr = acc[item.category].slice(0);
+        itemArr.push(item);
+        acc[item.category].push(itemArr.sort(sortItems));
+      }
 
-    return acc;
-  }, {});
+      return acc;
+    }, {});
 
-  const categoryKeys = Object.keys(menuClone).sort();
-  return categoryKeys.map((key, i) => {
+    const categoryKeys = Object.keys(menuClone).sort();
+    return categoryKeys.map((key, i) => {
+      return (
+        <li key={i}>
+          <h3>{key}</h3>
+          <div>{formatItem(menuClone[key])}</div>
+        </li>
+      );
+    });
+  }
+  return "";
+}
+
+function FormattedMenu(obj) {
+  if (obj && obj.menu) {
+    const format = formatMenu(obj.menu);
     return (
-      <li key={i}>
-        <h3>{key}</h3>
-        <div>{formatItem(menuClone[key])}</div>
-      </li>
+      <div>
+        <ul>{format}</ul>
+      </div>
     );
-  });
+  }
+  return "";
 }
 
 function Menu() {
   const [menu, setMenu] = useState();
+  const [d, setD] = useState();
   let { id } = useParams();
-
   useEffect(() => {
     async function fetchMenu() {
       try {
         const data = await fetch("/api/menus/" + id);
         const dataJSON = await data.json();
+        setD(Object.assign({}, dataJSON));
         setMenu(formatMenu(dataJSON));
       } catch (err) {
         setMenu(JSON.stringify(err));
@@ -79,7 +98,7 @@ function Menu() {
   return (
     <div>
       Menu for {id}
-      <ul>{menu}</ul>
+      <FormattedMenu menu={d} />
     </div>
   );
 }
